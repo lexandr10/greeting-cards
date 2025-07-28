@@ -1,5 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql'
-import { IsOptional, Length, IsEnum, IsUrl } from 'class-validator'
+import { IsOptional, Length, IsEnum } from 'class-validator'
 import { CardStatus } from 'src/database/enums/card-status.enum'
 
 import { Category } from 'src/database/enums/category.enum'
@@ -29,6 +29,5 @@ export class UpdateCardInput {
 
 	@Field({ nullable: true })
 	@IsOptional()
-	@IsUrl({}, { message: 'Image URL must be a valid URL.' })
 	imageUrl?: string
 }

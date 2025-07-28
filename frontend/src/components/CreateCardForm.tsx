@@ -32,7 +32,7 @@ export const  CreateCardForm: React.FC<CreateCardFormProps> = () =>{
 
     try {
 			await cardsService.create({ description, imageUrl, category, language });
-			console.log("submit clicked");
+			router.push("/my-cards");
 			
     } catch (err: any) {
       setError(err.message || "Failed to create card");

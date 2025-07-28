@@ -40,8 +40,11 @@ export const Card: React.FC<CardProps> = ({ card, onChange }) => {
 	  const handleApprove = async () => {
       setBusy(true);
       try {
-        await cardsService.update(card.id, { status: "APPROVED" });
+        await cardsService.approve(card.id);
         onChange?.();
+      } catch (error) {
+        console.error('Approve error:', error);
+        alert('Failed to approve card');
       } finally {
         setBusy(false);
       }
@@ -108,9 +111,6 @@ export const Card: React.FC<CardProps> = ({ card, onChange }) => {
 
         <p className="text-gray-800 font-medium mb-2">{card.description}</p>
         <div className="flex justify-between items-center">
-          <span className="text-sm text-gray-600">
-            {new Date(Number(card.createdAt)).toLocaleDateString()}
-          </span>
           <button
             onClick={handleLike}
             disabled={!canCreateOrLike}

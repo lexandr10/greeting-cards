@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 import { useAuth } from "@/context/AuthContext";
@@ -11,26 +11,26 @@ import { Button } from "@/components/Button";
 export default function LoginForm() {
   const { signIn } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [generalError, setGeneralError] = useState<string | null>(null);
 
-
-	 const [emailError, setEmailError] = useState<string | null>(null);
-   const [passwordError, setPasswordError] = useState<string | null>(null);
-   const [generalError, setGeneralError] = useState<string | null>(null);
- 
   const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
+    e.preventDefault();
 
-		setEmailError(null);
+    setEmailError(null);
     setPasswordError(null);
-		setGeneralError(null);
-		
-		
+    setGeneralError(null);
+    
     try {
-      await signIn( email, password );
-      router.push("/");
+      await signIn(email, password);
+      // Redirect to the original URL or home page
+      const redirectTo = searchParams.get('redirect') || "/";
+      router.push(redirectTo);
     } catch (err: any) {
       const gqlErrs = err.graphQLErrors?.[0]?.extensions?.response?.message;
       if (Array.isArray(gqlErrs)) {
@@ -85,7 +85,7 @@ export default function LoginForm() {
         </Button>
       </form>
       <p className="mt-4 text-center text-sm text-gray-600">
-        Don’t have an account?{" "}
+        Don't have an account?{" "}
         <Link href="/register" className="text-blue-600 hover:underline">
           Sign Up
         </Link>

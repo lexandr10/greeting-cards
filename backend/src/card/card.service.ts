@@ -80,11 +80,9 @@ export class CardService {
 	async create(input: CreateCardInput, userId: number): Promise<Card> {
 		const author = await this.userRepo.findOneBy({ id: userId })
 		if (!author) throw new NotFoundException('User not found')
-		const status =
-			author.role === UserRole.ADMIN ? CardStatus.APPROVED : CardStatus.DRAFT
 		const card = this.cardRepo.create({
 			...input,
-			status,
+			status: CardStatus.DRAFT,
 			author
 		})
 		return this.cardRepo.save(card)
@@ -97,7 +95,7 @@ export class CardService {
 		})
 		if (!card) throw new NotFoundException(`Card with ID ${id} not found`)
 		Object.assign(card, input)
-		if (card.status === CardStatus.APPROVED) {
+		if (card.status === CardStatus.APPROVED && input.status !== CardStatus.APPROVED) {
 			card.status = CardStatus.AWAITING_APPROVAL
 		}
 		return this.cardRepo.save(card)
