@@ -1,0 +1,5 @@
+export enum CardStatus {
+	DRAFT = 'DRAFT',
+	AWAITING_APPROVAL = 'AWAITING_APPROVAL',
+	APPROVED = 'APPROVED'
+}

@@ -1,0 +1,131 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserType {
+  id: Int!
+  email: String!
+  fullName: String
+  dateOfBirth: String
+  role: UserRole!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""The role of the user in the system"""
+enum UserRole {
+  ADMIN
+  PUBLISHER
+  VISITOR
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type SignUpResponse {
+  accessToken: String!
+  user: UserType!
+}
+
+type AccessTokenResponse {
+  accessToken: String!
+}
+
+type CardType {
+  id: Int!
+  description: String!
+  imageUrl: String!
+  category: Category!
+  language: Language!
+  status: CardStatus!
+  author: UserType!
+  createdAt: String!
+  updatedAt: String!
+  likesCount: Int!
+  likedByMe: Boolean!
+}
+
+"""The category of the greeting card"""
+enum Category {
+  BIRTHDAY
+  WELCOME
+  WORK_ANNIVERSARY
+  NEW_YEAR
+  COMPANY_ANNIVERSARY
+  GENERAL
+}
+
+"""The language of the greeting card"""
+enum Language {
+  EN
+  DE
+  UA
+}
+
+"""The status of the greeting card"""
+enum CardStatus {
+  DRAFT
+  AWAITING_APPROVAL
+  APPROVED
+}
+
+type Query {
+  me: UserType!
+  users: [UserType!]!
+  cards(onlyMine: Boolean! = false): [CardType!]!
+  card(id: Int!): CardType!
+  pendingCards: [CardType!]!
+}
+
+type Mutation {
+  signUp(input: SignupInput!): SignUpResponse!
+  signIn(input: SigninInput!): AccessTokenResponse!
+  refresh: AccessTokenResponse!
+  logout: Boolean!
+  updateUser(input: UpdateUserInput!): UserType!
+  changeUserRole(userId: Int!, role: UserRole!): UserType!
+  updateUserRole(userId: Int!, role: UserRole!): UserType!
+  createCard(input: CreateCardInput!): CardType!
+  updateCard(id: Int!, input: UpdateCardInput!): CardType!
+  deleteCard(id: Int!): Boolean!
+  approveCard(id: Int!): Boolean!
+  likeCard(cardId: Int!): Boolean!
+  unlikeCard(cardId: Int!): Boolean!
+}
+
+input SignupInput {
+  email: String!
+  password: String!
+  fullName: String
+  dateOfBirth: String
+}
+
+input SigninInput {
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  email: String
+  password: String
+  fullName: String
+  dateOfBirth: String
+  id: Int!
+}
+
+input CreateCardInput {
+  description: String!
+  imageUrl: String!
+  category: Category!
+  language: Language!
+}
+
+input UpdateCardInput {
+  description: String
+  category: Category
+  language: Language
+  status: CardStatus
+  imageUrl: String
+}

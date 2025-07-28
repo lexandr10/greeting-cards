@@ -1,0 +1,14 @@
+export enum Category {
+  BIRTHDAY = "BIRTHDAY",
+  WELCOME = "WELCOME",
+  WORK_ANNIVERSARY = "WORK_ANNIVERSARY",
+  NEW_YEAR = "NEW_YEAR",
+  COMPANY_ANNIVERSARY = "COMPANY_ANNIVERSARY",
+  GENERAL = "GENERAL",
+}
+
+export enum Language {
+  EN = "EN",
+  DE = "DE",
+  UA = "UA",
+}
